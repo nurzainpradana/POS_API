@@ -134,7 +134,8 @@ class ApiController extends Controller {
                 }
             }
 
-            $detail     = new TransactionDetail();
+            $detail                     = new TransactionDetail();
+
             $detail->id_transaction     = $transaction->id;
             $detail->id_product         = $id_product[$i];
             $detail->product            = $product->product;
@@ -166,10 +167,36 @@ class ApiController extends Controller {
             $transaction->total_price   = $total_price;
 
             $transaction->update( );
+
+            if($transaction){
+                $this->isSuccess    = true;
+                $this->message      = "Success Transaction";
+                return $this->commit_response();
+            }
+            
+        }
+
+        
+    }
+
+    public function getTransaction(Request $request){
+
+        if($request->id)
+            $data   = Transaction::with('detail')->where('id', $request->id)->get();
+        else
+            $data   = Transaction::with('detail')->get();
+
+        if($data->isEmpty()){
+            $this->isSuccess    = false;
+            $this->message      = "Data tidak ditemukan";
+            $this->data         = null;
+
+            return $this->commit_response();
         }
 
         $this->isSuccess    = true;
-        $this->message      = "Success Transaction";
+        $this->message      = "Data Berhasil Didapatkan";
+        $this->data         = $data;
 
         return $this->commit_response();
     }

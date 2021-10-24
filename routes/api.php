@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('product', 'App\Http\Controllers\ApiController@getDataProduct');
 Route::get('customer', 'App\Http\Controllers\ApiController@getDataCustomer');
 Route::post('transaction', 'App\Http\Controllers\ApiController@postTransaction');
+Route::get('transaction', 'App\Http\Controllers\ApiController@getTransaction');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
